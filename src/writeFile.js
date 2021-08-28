@@ -6,62 +6,52 @@ var fs = require('fs'); // 引入fs模块
     * @param {String} paramsObj.path 要写入的文件路径
     * @param {Any} paramsObj.content 要写入的文件内容
     * @param {Boolean} paramsObj.showExeResult  是否显示文件写入操作 执行完后的提示，默认为true：显示。
-    * @return  {Promise<Boolean>} true/false 表示写入成功与否的状态
+    * @return  {Boolean} true/false 表示写入成功与否的状态
     * @author zl-fire 2021/08/28
     * @example
-    *  writeFile({path:"./test.txt",content:"helloworld"});
+    *  let res=writeFile({path:"./test8.txt",content:"helloworld",showExeResult:true});
+    *  console.log("res",res)
   */
 function writeFile(paramsObj) {
     let { path, content, showExeResult } = paramsObj;
     if (showExeResult == undefined) showExeResult = true; //默认显示提示
-    return new Promise(function (resolve, reject) {
-        writePathFile({ path, content, resolve, reject, showExeResult });
-    })
-
+    return writePathFile({ path, content, showExeResult });
 }
 
 
 
 // 写入文件的外层调用函数
-function writePathFile({ path, content, resolve, reject, showExeResult }) {
+function writePathFile({ path, content, showExeResult }) {
     var pathA = path.split("/");
     pathA.pop();
-    createDirsSync(pathA.join("/"), function () {
-        // 写入文件内容的回调函数
-        fs.writeFile(path, content, function (err) {
-            content = "";
-            // 生成提示语
-            let msg = "";
-            if (err) {
-                msg = path + " 创建失败.";
-            }
-            else {
-                msg = path + " 创建成功."
+    // 生成提示语
+    let msg = "";
+    try {
+        // 递归创建不存在的目录
+        createDirsSync(pathA.join("/"));
+        // 写入文件
+        fs.writeFileSync(path, content);
+        msg = path + " 创建成功."
+        // 控制默认的日志打印
+        if (showExeResult) {
+            console.log(msg);
+        }
+        return true;
 
-            }
-            // 控制默认的日志打印
-            if (showExeResult) {
-                console.log(msg);
-            }
-            // 返回操作状态
-            if (err) reject(msg)
-            else resolve(msg)
-        });
-    })
+    } catch (err) {
+        msg = path + " 创建失败.";
+        console.log(msg, err);
+        return false;
+    }
 }
 
 /**
-    * @function 递归的查找并创建整个路径层次中的所有文件夹
-    * @description 他会层层的往下找，没有就创建文件夹目录，有就查询下一层文件夹，直到找完参数路径的每一层路径
-    * @param {String} dir  递归的查找并创建的目录路径
-    * @param {Function} callback 目录路径递归的查找与创建完后，要执行的回调函数
+    * @function 递归创建路径层次中不存在的目录
+    * @param {String} dir  目录路径参数
     * @author zl-fire 2021/08/28
-    * @example
-    *  writeFile({path:"./test.txt",content:"helloworld"});
   */
-function createDirsSync(dir, callback) {
+function createDirsSync(dir) {
     if (dir == "." || dir == "..") {
-        callback();
         return;
     }
     var dirs = dir.split('/');
@@ -84,8 +74,6 @@ function createDirsSync(dir, callback) {
             if (len > i) {
                 url = url + "/" + dirs[i];
                 mkDirs(url);
-            } else {
-                callback();
             }
         } else {
             mkDir(url)
@@ -98,8 +86,6 @@ function createDirsSync(dir, callback) {
         if (len > i) {
             url = url + "/" + dirs[i];
             mkDir(url);
-        } else {
-            callback();
         }
     }
 }
