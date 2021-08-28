@@ -6,7 +6,7 @@ var fs = require('fs'); // 引入fs模块
     * @param {String} paramsObj.path 要写入的文件路径
     * @param {Any} paramsObj.content 要写入的文件内容
     * @param {Boolean} paramsObj.showExeResult  是否显示文件写入操作 执行完后的提示，默认为true：显示。
-    * @return  {Boolean} true/false 表示写入成功与否的状态
+    * @return  {Promise<Boolean>} true/false 表示写入成功与否的状态
     * @author zl-fire 2021/08/28
     * @example
     *  writeFile({path:"./test.txt",content:"helloworld"});
