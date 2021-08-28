@@ -1,0 +1,20 @@
+{
+  "name": "zl-nodefs",
+  "version": "1.0.0",
+  "description": "对node的常用文件操作进行封装，提高开发效率",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zl-fire/zl-nodefs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zl-fire/zl-nodefs/issues"
+  },
+  "homepage": "https://github.com/zl-fire/zl-nodefs#readme"
+}
