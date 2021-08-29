@@ -6,7 +6,8 @@ const readFileList = require("./module/readFileList");
 const readFileContent = require("./module/readFileContent");
 
 module.exports = {
-    writeFile, deleteFile, readFileList, readFileContent
+    writeFile, deleteFile, 
+    readFileList, readFileContent
 }
 
 // // 写入文件示例

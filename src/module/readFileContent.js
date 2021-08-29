@@ -1,7 +1,7 @@
 
-var fs = require('fs'); // 引入fs模块
+const fs = require('fs'); // 引入fs模块
 /**
-    * @function 同步方式，读取指定目录下的所有文件/文件夹列表,返回tree结构数据
+    * @function 以同步方式读取指定文件的内容
     * @param {Object} paramsObj 完整的参数对象信息
     * @param {String} paramsObj.filePath 要读取的文件路径，可传入相对路径(./,../),也可传入绝对路径
     * @param {String} paramsObj.readEncode 表示以何种编码读取文件，默认值为'utf-8'

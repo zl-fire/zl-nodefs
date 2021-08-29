@@ -1,6 +1,6 @@
 
-var fs = require('fs'); // 引入fs模块
-var Path = require('path');
+const fs = require('fs'); // 引入fs模块
+const Path = require('path');
 
 
 /**

@@ -1,4 +1,4 @@
-var fs = require('fs'); // 引入fs模块
+const fs = require('fs'); // 引入fs模块
 
 /**
     * @description 同步方式，向一个文件写入内容，不存在就创建，存在就覆盖

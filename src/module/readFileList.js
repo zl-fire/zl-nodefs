@@ -1,6 +1,6 @@
 
-var fs = require('fs'); // 引入fs模块
-var Path = require('path');
+const fs = require('fs'); // 引入fs模块
+const Path = require('path');
 /**
     * @function 同步方式，读取指定目录下的所有文件/文件夹列表,返回tree结构数据
     * @param {Object} paramsObj 完整的参数对象信息
