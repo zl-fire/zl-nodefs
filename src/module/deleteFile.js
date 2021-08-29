@@ -1,5 +1,6 @@
 
 var fs = require('fs'); // 引入fs模块
+var Path = require('path');
 
 
 /**
@@ -8,16 +9,18 @@ var fs = require('fs'); // 引入fs模块
     * @param {String} paramsObj.fileUrl 要删除的文件/文件夹路径
     * @param {Boolean} paramsObj.flag 是否删除最外层目录，不传或为false表示不删除，true表示删除.
     * @param {Boolean} paramsObj.showExeResult  是否显示写入操作完后的提示，默认为true：显示。
+    * @param {Boolean} paramsObj.delExactType  当删除的是一个非空文件夹时，删除后代文件中指定的某种类型文件
+    * 
     * @return {Boolean} true/false 表示操作是否成功
     * @author zl-fire 2021/08/28
     * @example
-    *  let res1 = deleteFile({ fileUrl: "./src/gggg", flag: true, showExeResult: true });
+    *  let res1 = deleteFile({ fileUrl: "./gggg", flag: true});
     *  console.log("res1",res1)
   */
 function deleteFile(paramsObj) {
-    let { fileUrl, flag, showExeResult } = paramsObj;
+    let { fileUrl, flag, showExeResult, delExactType } = paramsObj;
     if (showExeResult == undefined) showExeResult = true; //默认显示提示
-    return delFile({ fileUrl, flag, showExeResult });
+    return delFile({ fileUrl, flag, showExeResult, delExactType });
 }
 
 
@@ -32,7 +35,7 @@ function deleteFile(paramsObj) {
     *  let res=delFile("./hello", true, true);
     *  console.log("res",res)
   */
-function delFile({ fileUrl, flag, showExeResult }) {
+function delFile({ fileUrl, flag, showExeResult, delExactType }) {
     var log, i;
 
     // 控制是否打印删除日志
@@ -52,21 +55,23 @@ function delFile({ fileUrl, flag, showExeResult }) {
         log("你要删除的 " + fileUrl + " 不存在!");
         return false;
     };
-    // 当前文件为文件夹时 
+    // 当前删除对象为文件夹时 
     if (fs.statSync(fileUrl).isDirectory()) {
         var files = fs.readdirSync(fileUrl);
         var len = files.length,
             removeNumber = 0;
         if (len > 0) {
             files.forEach(function (file) {
-                removeNumber++;
                 var url = fileUrl + '/' + file;
                 if (fs.statSync(url).isDirectory()) {
-                    delFile({ fileUrl: url, flag: true }); //对于文件夹递归调用自身,由于这里固定传入了true,所以子文件夹一定会被删除
+                    delFile({ fileUrl: url, flag: true, delExactType }); //对于文件夹递归调用自身,由于这里固定传入了true,所以子文件夹一定会被删除
                 } else {
+                    let extname = Path.extname(file);//获取文件的后缀名
+                    if (delExactType && !delExactType.includes(extname)) return; //如果指定了要删除的具体名字文件类型，那么没在指定中的内容就不进行删除
                     fs.unlinkSync(url); //对于文件直接进行删除
                     log('删除文件' + url + '成功');
                 }
+                removeNumber++;
             });
             // 是否删除自身
             if (len == removeNumber && flag) {

@@ -14,7 +14,7 @@ module.exports = {
 // console.log("res", res)
 
 // // 删除文件
-// let res1 = deleteFile({ fileUrl: "./src/gggg", flag: true, showExeResult: true });
+// let res1 = deleteFile({ fileUrl: "./gggg", flag: true});
 // console.log("res1", res1)
 
 // 读取文件列表
