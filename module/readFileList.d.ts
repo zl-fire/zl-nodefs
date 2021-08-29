@@ -6,7 +6,7 @@ export = readFileList;
     * @param {Array<string>} paramsObj.ignoreList 读取过程中要忽略的目录名，如： ["node_modules",".git"]
     * @param {Array<string>} paramsObj.needTypes  指定要读取的具体文件类型,除此之外全部忽略，如：[".doc", ".docx"]
     * @param {Array<string>}  paramsObj.ignoreTypes  指定要忽略的具体文件类型,除此之外全部读取(如果needTypes存在，则以needTypes为准，会忽略ignoreTypes参数)
-    * @return {Array<object>} 返回tree结构数据
+    * @return {Array<object>} 返回tree结构数据（如果想保留文件对象上的空的children数组字段，那么就设置：readFileList.nodelEmptyChildren=true）
     * @author zl-fire 2021/08/29
     * @example
     * var fileList = readFileList({
@@ -16,6 +16,9 @@ export = readFileList;
     *     // ignoreTypes:[".js",".doc"], //忽略".js",".doc"文件类型(如果needTypes存在，则以needTypes为准，会忽略ignoreTypes参数)
     * })
     * console.log(JSON.stringify(fileList, null, 4));
+    *
+    *
+    *
   */
 declare function readFileList(paramsObj: {
     dirPath: string;
