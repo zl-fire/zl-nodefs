@@ -11,8 +11,8 @@ var fs = require('fs'); // 引入fs模块
     * @return {Boolean} true/false 表示操作是否成功
     * @author zl-fire 2021/08/28
     * @example
-    *  let res=deleteFile({fileUrl:"./hello",flag:true,showExeResult:true});
-    *  console.log("res",res)
+    *  let res1 = deleteFile({ fileUrl: "./src/gggg", flag: true, showExeResult: true });
+    *  console.log("res1",res1)
   */
 function deleteFile(paramsObj) {
     let { fileUrl, flag, showExeResult } = paramsObj;
@@ -62,7 +62,7 @@ function delFile({ fileUrl, flag, showExeResult }) {
                 removeNumber++;
                 var url = fileUrl + '/' + file;
                 if (fs.statSync(url).isDirectory()) {
-                    delFile(url, true); //对于文件夹递归调用自身,由于这里固定传入了true,所以子文件夹一定会被删除
+                    delFile({ fileUrl: url, flag: true }); //对于文件夹递归调用自身,由于这里固定传入了true,所以子文件夹一定会被删除
                 } else {
                     fs.unlinkSync(url); //对于文件直接进行删除
                     log('删除文件' + url + '成功');
