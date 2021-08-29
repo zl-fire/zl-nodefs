@@ -1,4 +1,5 @@
-
+//打包命令：   rollup src/main.js --file index.js --format umd --name "zl-nodefs"
+  
 const writeFile = require("./writeFile");
 const deleteFile = require("./deleteFile");
 const readFileList = require("./readFileList");

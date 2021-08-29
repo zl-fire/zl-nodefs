@@ -3,7 +3,7 @@ var fs = require('fs'); // 引入fs模块
 
 
 /**
-    * @function 同步方式，删除指定目录下的所有文件/文件夹
+    * @function 同步方式，递归删除指定目录下的所有文件/文件夹
     * @param {Object} paramsObj 完整的参数对象信息
     * @param {String} paramsObj.fileUrl 要删除的文件/文件夹路径
     * @param {Boolean} paramsObj.flag 是否删除最外层目录，不传或为false表示不删除，true表示删除.
