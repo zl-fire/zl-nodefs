@@ -4,7 +4,8 @@
   "description": "对node的常用文件操作进行封装，提高开发效率",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "npk": "rollup src/main.js --file index.js --format umd --name zl-nodefs"
   },
   "repository": {
     "type": "git",

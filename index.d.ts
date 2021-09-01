@@ -1,5 +1,6 @@
-export const writeFile: typeof import("./module/writeFile");
-export const deleteFile: typeof import("./module/deleteFile");
-export const readFileList: typeof import("./module/readFileList");
-export const readFileContent: typeof import("./module/readFileContent");
-export const addFileContent: typeof import("./module/addFileContent");
+import writeFile = require("./module/writeFile");
+import deleteFile = require("./module/deleteFile");
+import readFileList = require("./module/readFileList");
+import readFileContent = require("./module/readFileContent");
+import addFileContent = require("./module/addFileContent");
+export { writeFile, deleteFile, readFileList, readFileContent, addFileContent };
