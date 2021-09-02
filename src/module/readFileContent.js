@@ -19,4 +19,4 @@ function readFileContent(paramsObj) {
     else return buffer;
 }
 
-module.exports = readFileContent;
+export default   readFileContent;

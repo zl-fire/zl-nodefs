@@ -1,4 +1,7 @@
-export = addFileContent;
+
+const fs = require('fs'); // 引入fs模块
+import writeFile from "./writeFile";
+import readFileContent from "./readFileContent";
 /**
     * @function 以同步方式向指定文件追加内容
     * @description 对于在非末尾添加文件内容时，需要先将文件读取出来，然后在内存中修改后再进行写入
@@ -13,10 +16,28 @@ export = addFileContent;
     * @example
     *  addFileContent({filePath:"./test8.txt", content:"你好"})
   */
-declare function addFileContent(paramsObj: {
-    filePath: string;
-    content: string;
-    position: string;
-    readFileContent_readEncode: string;
-    readFileContent_returnType: any | string;
-}): void;
+function addFileContent(paramsObj) {
+    let { filePath, content, position = "end", readFileContent_readEncode = 'utf-8', readFileContent_returnType = "string" } = paramsObj;
+    let fileConten
+    if (position != "end") {
+        // 读取文件
+        fileConten = readFileContent({ filePath: filePath, readEncode: readFileContent_readEncode, returnType: readFileContent_returnType });
+    }
+    switch (position) {
+        case "start":
+            writeFile({ path: filePath, content: content + fileConten, showExeResult: false });
+            break;
+        case "end":
+            fs.appendFileSync(filePath, content);
+            break;
+        default:
+            // 构建正则表表达式
+            let pattern = new RegExp(position, "g");
+            writeFile({ path: filePath, content: fileConten.replace(pattern, position + content), showExeResult: false });
+            break;
+    }
+}
+
+export default addFileContent;
+
+

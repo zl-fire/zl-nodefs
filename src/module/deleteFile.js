@@ -95,4 +95,4 @@ function delFile({ fileUrl, flag, showExeResult, delExactType }) {
     }
 }
 
-module.exports = deleteFile;
+export default   deleteFile;

@@ -24,4 +24,4 @@ function handleAbsolutePath(thePath, content, showExeResult) {
     }
 }
 
-module.exports = handleAbsolutePath
+export default   handleAbsolutePath
