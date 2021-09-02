@@ -1,66 +1,7 @@
-# zl-nodefs
-对node的常用文件操作进行封装，提高开发效率
-
-## 主要功能
- * **通过递归方式对指定文件/文件夹进行删除**(删除时还可以指定只删除特定类型的文件，删除时也可指定是否删除目录本身}
- * **创建指定路径的文件** (如果指定的路径中某些目录不存在，那么就会递归创建)
- *  **读取指定目录下的所有文件和文件夹生成树结构** (可以通过参数过滤某些目录或者某些文件类型，也可指定只读取某些文件类型)
- *  **向指定文件追加内容** （可指定最佳位置，start,end，特定位置）
- *  **读取文件内容** （可传入参数控制编码和返回类型等）
-
-## 引入方式
-
-```js
-
-let zl_nodefs = require("zl-nodefs");
-let {
-    writeFile, //创建/写入文件
-    deleteFile,//删除文件夹/文件
-    readFileList,//读取目录树tree
-    readFileContent,//读取文件内容
-    addFileContent //追加文件内容
-} = zl_nodefs;
-
-```
-
-## 基本使用示例
-
-```js
-
-// 写入文件示例
-let res = writeFile({ path: "./test8.txt", content: "helloworld", showExeResult: true });
-console.log("res", res)
-
-// 删除文件
-let res1 = deleteFile({ fileUrl: "./hello", flag: true });
-console.log("res1", res1)
-
-// 读取文件列表
-var fileList = readFileList({
-    dirPath: "./",  //读取当前目录下的所有文件
-    ignoreList: ["node_modules", ".git"], //遇到node_modules目录时进行忽略
-})
-console.log(JSON.stringify(fileList, null, 4));
-
-// 读取文件内容
-let res = readFileContent({ filePath: "./test8.txt" });
-console.log("=====res====", res);
-
-// 追加文件内容
-addFileContent({ filePath: "./test8.txt", content: "你好" });
-
-```
-
-## 各方法详解
-
-```js
-
-------------------------- writeFile, 创建/写入文件 -----------------------
-
 /**
     * @description 同步方式，向一个文件写入内容，不存在就创建，存在就覆盖
     * @param {Object} paramsObj 完整的参数对象信息
-    * @param {String} paramsObj.path 要写入的文件路径
+    * @param {String} paramsObj.path 要写入的文件路径,可绝对路径，可相对路径
     * @param {Any} paramsObj.content 要写入的文件内容
     * @param {Boolean} paramsObj.showExeResult  是否显示文件操作完后的提示，默认为true：显示。
     * @return  {Boolean} true/false 表示写入成功与否的状态
@@ -69,14 +10,11 @@ addFileContent({ filePath: "./test8.txt", content: "你好" });
     *  let res=writeFile({path:"./test8.txt",content:"helloworld",showExeResult:true});
     *  console.log("res",res)
   */
-function writeFile(paramsObj: {
+export function writeFile(paramsObj: {
     path: string;
     content: any;
     showExeResult: boolean;
 }): boolean;
-
-------------------------- deleteFile, 删除文件夹/文件 -----------------------
-
 /**
     * @function 同步方式，递归删除指定目录下的所有文件/文件夹
     * @param {Object} paramsObj 完整的参数对象信息
@@ -91,15 +29,12 @@ function writeFile(paramsObj: {
     *  let res1 = deleteFile({ fileUrl: "./gggg", flag: true});
     *  console.log("res1",res1)
   */
-function deleteFile(paramsObj: {
+export function deleteFile(paramsObj: {
     fileUrl: string;
     flag: boolean;
     showExeResult: boolean;
     delExactType: boolean;
 }): boolean;
-
-------------------------- readFileList, 读取目录树tree -----------------------
-
 /**
     * @function 同步方式，读取指定目录下的所有文件/文件夹列表,返回tree结构数据
     * @param {Object} paramsObj 完整的参数对象信息
@@ -118,20 +53,17 @@ function deleteFile(paramsObj: {
     *     // ignoreTypes:[".js",".doc"], //忽略".js",".doc"文件类型(如果needTypes存在，则以needTypes为准，会忽略ignoreTypes参数)
     * })
     * console.log(JSON.stringify(fileList, null, 4));
-    * 
-    * 
-    * 
+    *
+    *
+    *
   */
-function readFileList(paramsObj: {
+export function readFileList(paramsObj: {
     dirPath: string;
     ignoreList: Array<string>;
     needTypes: Array<string>;
     ignoreTypes: Array<string>;
-    ignoreTypes: boolean;
+    isfilterEmptyDir: boolean;
 }): Array<object>;
-
-------------------------- readFileContent, 读取文件内容 --------------------
-
 /**
     * @function 以同步方式读取指定文件的内容
     * @param {Object} paramsObj 完整的参数对象信息
@@ -144,15 +76,11 @@ function readFileList(paramsObj: {
     * let res = readFileContent({ filePath: "./src/main.js" });
     * console.log("=====res====", res);
   */
-function readFileContent(paramsObj: {
+export function readFileContent(paramsObj: {
     filePath: string;
     readEncode: string;
     returnType: any | string;
 }): any | string;
-
-------------------------- addFileContent, 追加文件内容 --------------------
-
-export = addFileContent;
 /**
     * @function 以同步方式向指定文件追加内容
     * @description 对于在非末尾添加文件内容时，需要先将文件读取出来，然后在内存中修改后再进行写入
@@ -167,39 +95,13 @@ export = addFileContent;
     * @example
     *  addFileContent({filePath:"./test8.txt", content:"你好"})
   */
-function addFileContent(paramsObj: {
+export function addFileContent(paramsObj: {
     filePath: string;
     content: string;
     position: string;
     readFileContent_readEncode: string;
     readFileContent_returnType: any | string;
 }): void;
-
-
-```
-
-## 工具函数对象：util
-
-### 引入工具对象
-```js
-
-let zl_nodefs = require("zl-nodefs");
-let {
-        deepCallGetMapObj, //递归遍历对象数组，生成一个map对象,指定字段为键，对象元素为值
-        signEmptyDir,//将空目录（存在children字段，且children为空数组）进行标记
-        deleteIncludeSpeFieldArrEle,//删除包含field字段的数组对象元素
-        filterEmptyDir,//删除对象数组中的将空目录字段信息（存在children字段，且children为空数组）
-        listnExePro;//监听一些不知道何时结束的程序进度
-
-} = zl_nodefs.util;
-
-```
-
-
-### 工具函数说明
-```js
-
---------- deepCallGetMapObj 递归遍历对象数组，生成一个map对象,指定字段为键，对象元素为值 --------------
 /**
  * @description 递归遍历对象数组，生成一个map对象,指定字段为键，对象元素为值
  * @param {Object} parObj 完整的参数对象信息
@@ -250,9 +152,11 @@ let {
  *     }
  * }
 */
-
---------- signEmptyDir 将空目录（存在children字段，且children为空数组）进行标记 --------------------
-
+declare function deepCallGetMapObj(parObj: {
+    list: string;
+    id2objMap: string;
+    field: boolean;
+}): void;
 /**
  * @description 将空目录（存在children字段，且children为空数组）进行标记
  * @param {object[]} list 要处理的对象数组
@@ -299,11 +203,9 @@ let {
  * }
  * //当执行完后，list的对象元素会自动标记空目录（即加上empty字段）
  * signEmptyDir(list, id2objMap);
- * 
+ *
 */
-
---------- deleteIncludeSpeFieldArrEle 删除包含field字段的数组对象元素 ----------------------------
-
+declare function signEmptyDir(list: object[], id2objMap: object): void;
 /**
  * @function 删除包含field字段的数组对象元素
  * @description 递归遍历对象数组，实现删除操作. 由于在遍历过程中实现的删除操作，所以是从后往前遍历的
@@ -314,8 +216,7 @@ let {
  * @example
  * deleteIncludeSpeFieldArrEle(list, "id");//list为对象数组，id为数组元素中的一个字段
 */
-
---------- filterEmptyDir 删除对象数组中的将空目录字段信息（存在children字段，且children为空数组） -----
+declare function deleteIncludeSpeFieldArrEle(list: object[], field: string, val: any): void;
 /**
  * @description 删除对象数组中的将空目录字段信息（存在children字段，且children为空数组）
  * @param {object[]} list 要处理的对象数组
@@ -340,9 +241,59 @@ let {
  *
  * //当执行完后，list的对象元素会自动删除
  * filterEmptyDir(list);
- * 
+ *
 */
---------- listnExePro 监听一些不知道何时结束的程序进度 --------------------------------------------
+declare function filterEmptyDir(list: object[], isfilterEmptyDir: any): void;
+/**
+ * @function 删除对象数组中的将空目录字段信息（存在children字段，且children为空数组）
+ * @description 此函数为直接删除，性能高于filterEmptyDir（filterEmptyDir 这个方法的删除时先标识一遍空）
+ * @param {object[]} list 要处理的对象数组
+ * @author zl-fire 2021/09/02
+ * @example
+ * list的结构示例(id,parent_id,children三个字段必须有)：
+ * [
+ *     {
+ *         "name": "src",
+ *         "id": "0_11",
+ *         "parent_id": 0,
+ *         "children": [
+ *             {
+ *                 "name": "module",
+ *                 "id": "0_11_2",
+ *                 "parent_id": "0_11",
+ *                 "children": [],
+ *             }
+ *         ]
+ *     }
+ * ]
+ * id2objMap结构示例（id为键，对象为值）：{id1:obj1,id2:obj2}
+ * {
+ *     "0_11": {
+ *         "name": "src",
+ *         "id": "0_11",
+ *         "parent_id": 0,
+ *         "children": [
+ *             {
+ *                 "name": "module",
+ *                 "id": "0_11_2",
+ *                 "parent_id": "0_11",
+ *                 "children": []
+ *             }
+ *         ]
+ *     },
+ *     "0_11_2": {
+ *         "name": "module",
+ *         "id": "0_11_2",
+ *         "parent_id": "0_11",
+ *         "children": []
+ *     }
+ * }
+ * //当执行完后，list的对象元素会自动标记空目录（即加上empty字段）
+ * delEmptyDir(list, id2objMap);
+ *
+ *
+*/
+declare function delEmptyDir(list: object[], id2objMap: any): void;
 /**
     * @function 监听一些不知道何时结束的程序执行进程
     * @description 监听一些不知道何时结束的程序执行进程,实现原理为监听一个全局变量标识，这个标识在执行过程中会不断的发生变化。所以：如果连续ns后，这个标识都没改变，那就认为执行结束
@@ -352,7 +303,19 @@ let {
     * @param {function} paramsObj.callBack 当认为执行过程结束后要执行的回调函数
     * @author zl-fire 2021/09/02
     * @example
-    * 
+    *
   */
-
-```
+declare function listnExePro(paramsObj?: {
+    msV: number;
+    num: number;
+    callBack: Function;
+}): void;
+export declare namespace util {
+    export { deepCallGetMapObj };
+    export { signEmptyDir };
+    export { deleteIncludeSpeFieldArrEle };
+    export { filterEmptyDir };
+    export { delEmptyDir };
+    export { listnExePro };
+}
+export {};

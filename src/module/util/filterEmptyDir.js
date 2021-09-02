@@ -25,7 +25,7 @@ import delEmptyDir from "./delEmptyDir";
  * ]
  *
  * //当执行完后，list的对象元素会自动删除
- * signEmptyDir(list);
+ * filterEmptyDir(list);
  * 
 */
 function filterEmptyDir(list, isfilterEmptyDir) {

@@ -10,6 +10,7 @@ import signEmptyDir from "./module/util/signEmptyDir";
 import deleteIncludeSpeFieldArrEle from "./module/util/deleteIncludeSpeFieldArrEle";
 import filterEmptyDir from "./module/util/filterEmptyDir";
 import delEmptyDir from "./module/util/delEmptyDir";
+import listnExePro from "./module/util/listnExePro";
 
 export default {
     writeFile,
@@ -17,11 +18,12 @@ export default {
     readFileList,
     readFileContent,
     addFileContent,
-    util:{
+    util: {
         deepCallGetMapObj,
         signEmptyDir,
         deleteIncludeSpeFieldArrEle,
         filterEmptyDir,
-        delEmptyDir
+        delEmptyDir,
+        listnExePro
     }
 }
