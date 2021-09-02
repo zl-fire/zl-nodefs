@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+#自定义忽略内容
+doctest

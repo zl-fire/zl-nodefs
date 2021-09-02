@@ -9,6 +9,7 @@ import deepCallGetMapObj from "./module/util/deepCallGetMapObj";
 import signEmptyDir from "./module/util/signEmptyDir";
 import deleteIncludeSpeFieldArrEle from "./module/util/deleteIncludeSpeFieldArrEle";
 import filterEmptyDir from "./module/util/filterEmptyDir";
+import delEmptyDir from "./module/util/delEmptyDir";
 
 export default {
     writeFile,
@@ -20,6 +21,7 @@ export default {
         deepCallGetMapObj,
         signEmptyDir,
         deleteIncludeSpeFieldArrEle,
-        filterEmptyDir
+        filterEmptyDir,
+        delEmptyDir
     }
 }
