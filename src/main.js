@@ -11,6 +11,7 @@ import deleteIncludeSpeFieldArrEle from "./module/util/deleteIncludeSpeFieldArrE
 import filterEmptyDir from "./module/util/filterEmptyDir";
 import delEmptyDir from "./module/util/delEmptyDir";
 import listnExePro from "./module/util/listnExePro";
+import asyncDelEmptyDir from "./module/util/asyncDelEmptyDir";
 
 export default {
     writeFile,
@@ -24,6 +25,7 @@ export default {
         deleteIncludeSpeFieldArrEle,
         filterEmptyDir,
         delEmptyDir,
-        listnExePro
+        listnExePro,
+        asyncDelEmptyDir
     }
 }
