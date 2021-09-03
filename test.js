@@ -26,9 +26,9 @@ var fileList = readFileList({
     dirPath: path.resolve("."),  //读取src下的所有文件
     ignoreList: ["node_modules", ".git"], //遇到node_modules目录时进行忽略
     needTypes: [".docx"], //只读取".doc", ".docx" 类型文件
-    // isfilterEmptyDir:true
+    isfilterEmptyDir:true
     // ignoreTypes:[".js",".doc"], //忽略".js",".doc"文件类型(如果needTypes存在，则以needTypes为准，会忽略ignoreTypes参数)
 });
-util.asyncDelEmptyDir(fileList,{ msV: 1000, num: 2}); //默认连续2秒没有变化就认为执行完成
-
+// util.asyncDelEmptyDir(fileList,{ msV: 1000, num: 2}); //默认连续2秒没有变化就认为执行完成
+console.log("====fileList=====",fileList)
 
