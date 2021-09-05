@@ -1,6 +1,6 @@
 {
   "name": "zl-nodefs",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "对node的常用文件操作进行封装，提高开发效率",
   "main": "index.js",
   "scripts": {

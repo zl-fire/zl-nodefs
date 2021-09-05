@@ -13,6 +13,7 @@ import handleAbsolutePath from "./handleAbsolutePath";
     *  console.log("res",res)
   */
 function writeFile(paramsObj) {
+
     let { path, content, showExeResult } = paramsObj;
     if (showExeResult == undefined) showExeResult = true; //默认显示提示
     // 绝对路径判断规则
@@ -20,8 +21,8 @@ function writeFile(paramsObj) {
         try {
             handleAbsolutePath(path, content, showExeResult);
             return true;
-        } catch(err) {
-            console.log("======创建文件错误====",err)
+        } catch (err) {
+            console.log("======创建文件错误====", err)
             return false;
         }
     }
@@ -72,6 +73,7 @@ function createDirsSync(dir) {
     if (dirs[dirs.length - 1] == "") {
         dirs.pop();
     }
+    if (dirs[0] == "") dirs[0] = "/"; //兼容mac等以/开头的绝对路径
     var len = dirs.length;
     var i = 0;
     var url = dirs[i];
@@ -100,4 +102,4 @@ function createDirsSync(dir) {
     }
 }
 
-export default   writeFile
+export default writeFile
