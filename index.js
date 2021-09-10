@@ -672,12 +672,15 @@
         * @param {String} paramsObj.copyOrCut  复制还是剪切,值为copy|cut ，默认为复制copy
         * @param {Boolean} paramsObj.showExeResult  是否显示写入操作完后的提示，默认为true：显示。
         * @param {Boolean} paramsObj.rewrite  对于已经存在的文件是否跳过，默认false跳过, d当值为true时表示进行覆盖
-        * 
-        * @return {Boolean} true/false 表示操作是否成功
         * @author zl-fire 2021/09/10
         * @example
-        *  let res1 = copycutFiledir({ fileUrl: "./gggg", flag: true});
-        *  console.log("res1",res1)
+        * copycutFiledir({
+        *     inputFileUrl: "./helloooo",
+        *     outFileUrl: "./helloooo333",
+        *     copyOrCut: "copy",
+        *     // showExeResult:false,
+        *     rewrite:false
+        * })
       */
     function copycutFiledir(paramsObj) {
         try {
@@ -689,20 +692,19 @@
                 rewrite = false,
             } = paramsObj;
 
-            // // 获取文件名
-            // let fileName = path.basename(inputFileUrl);
-            // console.log("==fileName====", fileName)
-            // // 拼接文件名
-            // outFileUrl = outFileUrl + "/" + fileName;
             // 标识时文件还是文件夹
             let fileOrDir;//dir|file
 
-            // 控制是否打印删除日志
-
+            // 控制是否打印日志
             if (showExeResult != undefined && showExeResult == false) {
                 log = function () { };
             } else if (log == undefined) {
                 log = console.log;
+            }
+
+            if (inputFileUrl === outFileUrl) {
+                log("【 输入输出文件不能相同】");
+                return;
             }
 
             // 先判断文件/文件夹是否存在
@@ -723,6 +725,8 @@
             else handleDir(paramsObj);  // 如果是文件夹，开始操作
             // 如果是剪切操作，还需要删除下原始文件
             if (copyOrCut == "cut" && res != "跳过") deleteFile({ fileUrl: inputFileUrl, showExeResult, flag: true, showExeResult });
+            // 操作完成后的提示
+            log("【 " + inputFileUrl + " 】成功 " + copyOrCut + " 到 【" + outFileUrl + " 】");
         }
         catch (err) {
             console.log("=========err=========", err);
@@ -741,7 +745,7 @@
         // 如果为复制操作（先读取，在写入）
         let content = readFileContent({ filePath: inputFileUrl, returnType: "buffer" });
         // 判断目标目录是否已经存在此文件
-        let state = fs$6.existsSync(inputFileUrl);//为true表示存在
+        let state = fs$6.existsSync(outFileUrl);//为true表示存在
         if (!state) {
             writeFile({ path: outFileUrl, content, showExeResult });
         }
@@ -754,8 +758,6 @@
                 log("【 " + inputFileUrl + "】 已经存在，自动跳过此文件");
                 return "跳过";
             }    }
-        // 操作完成后的提示
-        log("【 " + inputFileUrl + " 】成功 " + copyOrCut + " 到 【" + outFileUrl + " 】");
     }
 
     // 对文件夹进行写入

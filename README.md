@@ -2,6 +2,8 @@
 对node的常用文件操作进行封装，提高开发效率
 
 ## 主要功能
+
+ * **复制或剪切文件/文件夹** 
  * **删除指定文件/文件夹**(不限层级}
  * **创建指定路径的文件** (不论目录存在与否)
  * **读取指定目录下的所有文件和文件夹生成树结构** (不论层级，可配置化读取)
@@ -16,6 +18,7 @@ let zl_nodefs = require("zl-nodefs");
 let {
     writeFile, //创建/写入文件
     deleteFile,//删除文件夹/文件
+    copycutFiledir,//复制或剪切文件/文件夹
     readFileList,//读取目录树tree
     readFileContent,//读取文件内容
     addFileContent //追加文件内容
@@ -34,6 +37,17 @@ console.log("res", res)
 // 删除文件
 let res1 = deleteFile({ fileUrl: "./hello", flag: true });
 console.log("res1", res1)
+
+
+// 复制或剪切文件/文件夹
+copycutFiledir({
+    inputFileUrl: "./helloooo",
+    outFileUrl: "./helloooo333",
+    copyOrCut: "copy",
+    // showExeResult:false,
+    rewrite:false
+})
+
 
 // 读取文件列表
 var fileList = readFileList({
@@ -54,6 +68,32 @@ addFileContent({ filePath: "./test8.txt", content: "你好" });
 ## 各方法详解
 
 ```js
+------------------------- copycutFiledir, 复制或剪切文件/文件夹 -----------------------
+/**
+    * @function copycutFiledir
+    * @param {Object} paramsObj 同步方式，对文件/文件夹执行复制/剪切操作
+    * @param {String} paramsObj.inputFileUrl 要复制/剪切的文件/文件夹路径
+    * @param {String} paramsObj.outFileUrl 要将文件/文件夹要复制/剪切到哪里(复制目录只能写目录路径，复制文件只能写文件路径)
+    * @param {String} paramsObj.copyOrCut  复制还是剪切,值为copy|cut ，默认为复制copy
+    * @param {Boolean} paramsObj.showExeResult  是否显示写入操作完后的提示，默认为true：显示。
+    * @param {Boolean} paramsObj.rewrite  对于已经存在的文件是否跳过，默认false跳过, d当值为true时表示进行覆盖
+    * @author zl-fire 2021/09/10
+    * @example
+    * copycutFiledir({
+    *     inputFileUrl: "./helloooo",
+    *     outFileUrl: "./helloooo333",
+    *     copyOrCut: "copy",
+    *     // showExeResult:false,
+    *     rewrite:false
+    * })
+  */
+export function copycutFiledir(paramsObj: {
+    inputFileUrl: string;
+    outFileUrl: string;
+    copyOrCut: string;
+    showExeResult: boolean;
+    rewrite: boolean;
+}): boolean;
 
 ------------------------- writeFile, 创建/写入文件 -----------------------
 

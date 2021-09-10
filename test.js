@@ -12,9 +12,9 @@ let {
 } = zl_nodefs;
 
 copycutFiledir({
-    inputFileUrl: "测试文件/222.gif",
-    outFileUrl: "./back66666/222.gif",
-    copyOrCut: "cut",
+    inputFileUrl: "./helloooo",
+    outFileUrl: "./helloooo333",
+    copyOrCut: "copy",
     // showExeResult:false,
     rewrite:false
 })

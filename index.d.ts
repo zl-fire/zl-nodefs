@@ -21,7 +21,7 @@ export function writeFile(paramsObj: {
     * @param {String} paramsObj.fileUrl 要删除的文件/文件夹路径
     * @param {Boolean} paramsObj.flag 是否删除最外层目录，不传或为false表示不删除，true表示删除.
     * @param {Boolean} paramsObj.showExeResult  是否显示写入操作完后的提示，默认为true：显示。
-    * @param {Boolean} paramsObj.delExactType  当删除的是一个非空文件夹时，删除后代文件中指定的某种类型文件
+    * @param {string[]} paramsObj.delExactType  当删除的是一个非空文件夹时，删除后代文件中指定的某种类型文件
     *
     * @return {Boolean} true/false 表示操作是否成功
     * @author zl-fire 2021/08/28
@@ -33,7 +33,32 @@ export function deleteFile(paramsObj: {
     fileUrl: string;
     flag: boolean;
     showExeResult: boolean;
-    delExactType: boolean;
+    delExactType: string[];
+}): boolean;
+/**
+    * @function copycutFiledir
+    * @param {Object} paramsObj 同步方式，对文件/文件夹执行复制/剪切操作
+    * @param {String} paramsObj.inputFileUrl 要复制/剪切的文件/文件夹路径
+    * @param {String} paramsObj.outFileUrl 要将文件/文件夹要复制/剪切到哪里(复制目录只能写目录路径，复制文件只能写文件路径)
+    * @param {String} paramsObj.copyOrCut  复制还是剪切,值为copy|cut ，默认为复制copy
+    * @param {Boolean} paramsObj.showExeResult  是否显示写入操作完后的提示，默认为true：显示。
+    * @param {Boolean} paramsObj.rewrite  对于已经存在的文件是否跳过，默认false跳过, d当值为true时表示进行覆盖
+    * @author zl-fire 2021/09/10
+    * @example
+    * copycutFiledir({
+    *     inputFileUrl: "./helloooo",
+    *     outFileUrl: "./helloooo333",
+    *     copyOrCut: "copy",
+    *     // showExeResult:false,
+    *     rewrite:false
+    * })
+  */
+export function copycutFiledir(paramsObj: {
+    inputFileUrl: string;
+    outFileUrl: string;
+    copyOrCut: string;
+    showExeResult: boolean;
+    rewrite: boolean;
 }): boolean;
 /**
     * @function 同步方式，读取指定目录下的所有文件/文件夹列表,返回tree结构数据
@@ -68,7 +93,7 @@ export function readFileList(paramsObj: {
     * @function 以同步方式读取指定文件的内容
     * @param {Object} paramsObj 完整的参数对象信息
     * @param {String} paramsObj.filePath 要读取的文件路径，可传入相对路径(./,../),也可传入绝对路径
-    * @param {String} paramsObj.readEncode 表示以何种编码读取文件，默认值为'utf-8'
+    * @param {String} paramsObj.readEncode 表示以何种编码读取文件，无默认值为
     * @param {buffer|string} paramsObj.returnType 将读取结果以指定类型返回，默认返回字符串类型，可选值：buffer,string
     * @return {buffer|string} 返回buffer|string类型数据
     * @author zl-fire 2021/08/29
