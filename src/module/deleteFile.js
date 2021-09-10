@@ -9,7 +9,7 @@ const Path = require('path');
     * @param {String} paramsObj.fileUrl 要删除的文件/文件夹路径
     * @param {Boolean} paramsObj.flag 是否删除最外层目录，不传或为false表示不删除，true表示删除.
     * @param {Boolean} paramsObj.showExeResult  是否显示写入操作完后的提示，默认为true：显示。
-    * @param {Boolean} paramsObj.delExactType  当删除的是一个非空文件夹时，删除后代文件中指定的某种类型文件
+    * @param {string[]} paramsObj.delExactType  当删除的是一个非空文件夹时，删除后代文件中指定的某种类型文件
     * 
     * @return {Boolean} true/false 表示操作是否成功
     * @author zl-fire 2021/08/28

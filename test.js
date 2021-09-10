@@ -7,15 +7,23 @@ let {
     readFileList,//读取目录树tree
     readFileContent,//读取文件内容
     addFileContent, //追加文件内容
+    copycutFiledir,//复制/剪切 文件/文件夹
     util,
 } = zl_nodefs;
 
-let res = writeFile({ path: path.resolve(".")+"/test2/test3/test8.txt", content: "helloworld", showExeResult: true });
+copycutFiledir({
+    inputFileUrl: "测试文件/PRO.zip",
+    outFileUrl: "./back66666/PRO.zip",
+    copyOrCut: "copy"
+})
 
 
-// // // 写入文件（windows）
+
+
+// let res = writeFile({ path: path.resolve(".")+"/test2/test3/test8.txt", content: "helloworld", showExeResult: true });
+// // 写入文件（windows）
 // let dir0 = path.join(path.resolve("."), "aaa\\bbb\\ccc\\d\\test8.txt");
-//  writeFile({ path: dir0, content: "helloworld", showExeResult: false });
+//  writeFile({ path: "back66666/test.js", content: "helloworld", showExeResult: false });
 
 // fs.writeFileSync(path.resolve(".")+"/test2/test3/test8.txt", "content");
 

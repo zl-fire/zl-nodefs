@@ -1,5 +1,5 @@
 const fs = require('fs'); // 引入fs模块
-// 处理解析绝对路径
+// 处理解析绝对路径（windows）
 function handleAbsolutePath(thePath, content, showExeResult) {
     // if (/^[A-Za-z]:/.test(thePath)) { } // 绝对路径判断规则
     let start = thePath[0] + thePath[1] + thePath[2]; //取出盘符

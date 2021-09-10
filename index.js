@@ -4,8 +4,8 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global['zl-nodefs'] = factory());
 }(this, (function () { 'use strict';
 
-    const fs$5 = require('fs'); // 引入fs模块
-    // 处理解析绝对路径
+    const fs = require('fs'); // 引入fs模块
+    // 处理解析绝对路径（windows）
     function handleAbsolutePath(thePath, content, showExeResult) {
         // if (/^[A-Za-z]:/.test(thePath)) { } // 绝对路径判断规则
         let start = thePath[0] + thePath[1] + thePath[2]; //取出盘符
@@ -19,18 +19,18 @@
         for (let i = 0; i < pathArr.length; i++) {
             // 路径不存在就创建
             url += pathArr[i] + "\\";
-            if (!fs$5.existsSync(url)) {
-                fs$5.mkdirSync(url);
+            if (!fs.existsSync(url)) {
+                fs.mkdirSync(url);
             }
         }
         // 创建文件
-        fs$5.writeFileSync(thePath, content);
+        fs.writeFileSync(thePath, content);
         if (showExeResult) {
             console.log(thePath + "创建成功");
         }
     }
 
-    const fs$4 = require('fs'); // 引入fs模块
+    const fs$1 = require('fs'); // 引入fs模块
     /**
         * @description 同步方式，向一个文件写入内容，不存在就创建，存在就覆盖
         * @param {Object} paramsObj 完整的参数对象信息
@@ -72,7 +72,7 @@
             // 递归创建不存在的目录
             createDirsSync(pathA.join("/"));
             // 写入文件
-            fs$4.writeFileSync(path, content);
+            fs$1.writeFileSync(path, content);
             msg = path + " 创建成功.";
             // 控制默认的日志打印
             if (showExeResult) {
@@ -112,7 +112,7 @@
         mkDirs(url);
         // 逐级检测有没有当前文件夹，没有就创建，有就继续检测下一级
         function mkDirs(url) {
-            if (fs$4.existsSync(url)) {
+            if (fs$1.existsSync(url)) {
                 i = i + 1;
                 if (len > i) {
                     url = url + "/" + dirs[i];
@@ -124,7 +124,7 @@
         }
         // 创建文件
         function mkDir(url) {
-            fs$4.mkdirSync(url);
+            fs$1.mkdirSync(url);
             i = i + 1;
             if (len > i) {
                 url = url + "/" + dirs[i];
@@ -133,8 +133,8 @@
         }
     }
 
-    const fs$3 = require('fs'); // 引入fs模块
-    const Path$1 = require('path');
+    const fs$2 = require('fs'); // 引入fs模块
+    const Path = require('path');
 
 
     /**
@@ -143,7 +143,7 @@
         * @param {String} paramsObj.fileUrl 要删除的文件/文件夹路径
         * @param {Boolean} paramsObj.flag 是否删除最外层目录，不传或为false表示不删除，true表示删除.
         * @param {Boolean} paramsObj.showExeResult  是否显示写入操作完后的提示，默认为true：显示。
-        * @param {Boolean} paramsObj.delExactType  当删除的是一个非空文件夹时，删除后代文件中指定的某种类型文件
+        * @param {string[]} paramsObj.delExactType  当删除的是一个非空文件夹时，删除后代文件中指定的某种类型文件
         * 
         * @return {Boolean} true/false 表示操作是否成功
         * @author zl-fire 2021/08/28
@@ -185,42 +185,42 @@
         else i++;
 
         // 文件不存在时直接结束
-        if (!fs$3.existsSync(fileUrl)) {
+        if (!fs$2.existsSync(fileUrl)) {
             log("你要删除的 " + fileUrl + " 不存在!");
             return false;
         }    // 当前删除对象为文件夹时 
-        if (fs$3.statSync(fileUrl).isDirectory()) {
-            var files = fs$3.readdirSync(fileUrl);
+        if (fs$2.statSync(fileUrl).isDirectory()) {
+            var files = fs$2.readdirSync(fileUrl);
             var len = files.length,
                 removeNumber = 0;
             if (len > 0) {
                 files.forEach(function (file) {
                     var url = fileUrl + '/' + file;
-                    if (fs$3.statSync(url).isDirectory()) {
+                    if (fs$2.statSync(url).isDirectory()) {
                         delFile({ fileUrl: url, flag: true, delExactType }); //对于文件夹递归调用自身,由于这里固定传入了true,所以子文件夹一定会被删除
                     } else {
-                        let extname = Path$1.extname(file);//获取文件的后缀名
+                        let extname = Path.extname(file);//获取文件的后缀名
                         if (delExactType && !delExactType.includes(extname)) return; //如果指定了要删除的具体名字文件类型，那么没在指定中的内容就不进行删除
-                        fs$3.unlinkSync(url); //对于文件直接进行删除
+                        fs$2.unlinkSync(url); //对于文件直接进行删除
                         log('删除文件' + url + '成功');
                     }
                     removeNumber++;
                 });
                 // 是否删除自身
                 if (len == removeNumber && flag) {
-                    fs$3.rmdirSync(fileUrl);
+                    fs$2.rmdirSync(fileUrl);
                     log('删除文件夹' + fileUrl + '成功');
 
                 }
             } else if (len == 0 && flag) {
                 // 对于最外层目录，将根据调用delFile时的第二个参数是否为true决定
-                fs$3.rmdirSync(fileUrl);
+                fs$2.rmdirSync(fileUrl);
                 log('删除文件夹' + fileUrl + '成功');
 
             }
         } else {
             // 当前删除对象为文件时 
-            fs$3.unlinkSync(fileUrl);
+            fs$2.unlinkSync(fileUrl);
             log('删除文件' + fileUrl + '成功');
         }
         if (i == 0) {
@@ -347,7 +347,7 @@
             }
             else if (Obj.children && Obj.children.length == 0) {  //children存在，但为空，则认为是空目录
                 Obj.empty = true; //表示为空目录，到时要删除掉
-                deepCall2Top$1(Obj.parent_id, id2objMap); // 每删完一次就查看父级的children数组是否为空，如果为空就把父级也删了
+                deepCall2Top(Obj.parent_id, id2objMap); // 每删完一次就查看父级的children数组是否为空，如果为空就把父级也删了
             }
             else if (Obj.children && Obj.children.length > 0) {  //children存在，且不为空
                 signEmptyDir(Obj.children, id2objMap);
@@ -357,7 +357,7 @@
     }
 
     // 递归向上查找，为所有空的父级进行标记
-    function deepCall2Top$1(parent_id, id2objMap) {
+    function deepCall2Top(parent_id, id2objMap) {
         //获取父级对象
         let parentObj = id2objMap[parent_id];
         if (!parentObj) return;
@@ -369,7 +369,7 @@
         if (n == 0) {
             parentObj.empty = true; //表示为空目录，到时要删除掉
             // 同时递归调用自身，往上层查找
-            deepCall2Top$1(parentObj.parent_id, id2objMap);
+            deepCall2Top(parentObj.parent_id, id2objMap);
         }
     }
 
@@ -466,7 +466,7 @@
                 let parent_id = Obj.parent_id;
                 let index = list.indexOf(Obj);
                 list.splice(index, 1);
-                deepCall2Top(parent_id, id2objMap); // 每删完一次就查看父级的children数组是否为空，如果为空就把父级也删了
+                deepCall2Top$1(parent_id, id2objMap); // 每删完一次就查看父级的children数组是否为空，如果为空就把父级也删了
             }
             else if (Obj.children && Obj.children.length > 0) {  //children存在，且不为空
                 delEmptyDir(Obj.children, id2objMap);
@@ -476,7 +476,7 @@
     }
 
     // 递归向上查找，删除所有空的父级
-    function deepCall2Top(parent_id, id2objMap) {
+    function deepCall2Top$1(parent_id, id2objMap) {
         if (parent_id == "0") return;//已经递归到最顶端了，结束
         //获取父级对象
         let parentObj = id2objMap[parent_id];
@@ -489,7 +489,7 @@
             let index = parent_parObj.children.indexOf(parentObj);
             parent_parObj.children.splice(index, 1);
             // 同时递归调用自身，往上层查找
-            deepCall2Top(parent_id2, id2objMap);
+            deepCall2Top$1(parent_id2, id2objMap);
         }
     }
       //此方法还有点异常，后续在调整，先不使用
@@ -534,8 +534,8 @@
         }
     }
 
-    const fs$2 = require('fs'); // 引入fs模块
-    const Path = require('path');
+    const fs$3 = require('fs'); // 引入fs模块
+    const Path$1 = require('path');
     /**
         * @function 同步方式，读取指定目录下的所有文件/文件夹列表,返回tree结构数据
         * @param {Object} paramsObj 完整的参数对象信息
@@ -572,7 +572,7 @@
 
     function getFileList({ dirPath, filesList, idv, ignoreList, needTypes, ignoreTypes }) {
         let id = 1;// id起始值
-        var files = fs$2.readdirSync(dirPath);
+        var files = fs$3.readdirSync(dirPath);
         files.forEach(function (file) { // file为每个文件的名字
             const obj = {
                 name: file,
@@ -582,13 +582,13 @@
             };
             let fileUrl = dirPath + '/' + file;
             // 是文件夹就递归
-            if (fs$2.statSync(fileUrl).isDirectory()) {
+            if (fs$3.statSync(fileUrl).isDirectory()) {
                 if (ignoreList && ignoreList.includes(file)) return;//如果声明了只忽略某些子文件夹，则非指定文件夹全部读取
                 filesList.push(obj);
                 getFileList({ dirPath: fileUrl, filesList: obj.children, idv: obj.id, ignoreList, needTypes, ignoreTypes });
             }
             else {
-                let extname = Path.extname(file);//获取文件的后缀名
+                let extname = Path$1.extname(file);//获取文件的后缀名
                 if (needTypes && !needTypes.includes(extname)) return; //同上，不过针对的是具体的文件而不是文件夹
                 if (!needTypes && ignoreTypes && ignoreTypes.includes(extname)) return;
                 // 默认删除文件对象中空的children数组
@@ -598,7 +598,7 @@
         });
     }
 
-    const fs$1 = require('fs'); // 引入fs模块
+    const fs$4 = require('fs'); // 引入fs模块
     /**
         * @function 以同步方式读取指定文件的内容
         * @param {Object} paramsObj 完整的参数对象信息
@@ -612,13 +612,19 @@
         * console.log("=====res====", res);
       */
     function readFileContent(paramsObj) {
-        let { filePath, readEncode = 'utf-8', returnType = "string" } = paramsObj;
-        const buffer = fs$1.readFileSync(filePath, readEncode);
-        if (returnType == "string") return String(buffer);
-        else return buffer;
+      let { filePath, readEncode, returnType = "string" } = paramsObj;
+      let buffer;
+      if (readEncode) {
+        buffer = fs$4.readFileSync(filePath, readEncode);
+      }
+      else {
+        buffer = fs$4.readFileSync(filePath);
+      }
+      if (returnType == "string") return String(buffer);
+      else return buffer;
     }
 
-    const fs = require('fs'); // 引入fs模块
+    const fs$5 = require('fs'); // 引入fs模块
     /**
         * @function 以同步方式向指定文件追加内容
         * @description 对于在非末尾添加文件内容时，需要先将文件读取出来，然后在内存中修改后再进行写入
@@ -645,13 +651,89 @@
                 writeFile({ path: filePath, content: content + fileConten, showExeResult: false });
                 break;
             case "end":
-                fs.appendFileSync(filePath, content);
+                fs$5.appendFileSync(filePath, content);
                 break;
             default:
                 // 构建正则表表达式
                 let pattern = new RegExp(position, "g");
                 writeFile({ path: filePath, content: fileConten.replace(pattern, position + content), showExeResult: false });
                 break;
+        }
+    }
+
+    const fs$6 = require('fs'); // 引入fs模块
+    const path = require('path');
+
+    /**
+        * @function copycutFiledir
+        * @param {Object} paramsObj 同步方式，对文件/文件夹执行复制/剪切操作
+        * @param {String} paramsObj.inputFileUrl 要复制/剪切的文件/文件夹路径
+        * @param {String} paramsObj.outFileUrl 要将文件/文件夹要复制/剪切到哪里(复制目录只能写目录路径，复制文件只能写文件路径)
+        * @param {String} paramsObj.copyOrCut  复制还是剪切,值为copy|cut ，默认为复制copy
+        * @param {Boolean} paramsObj.showExeResult  是否显示写入操作完后的提示，默认为true：显示。
+        * @param {String[]} paramsObj.delExactType  当复制的是一个非空文件夹时，删除后代文件中指定的某种类型文件
+        * 
+        * @return {Boolean} true/false 表示操作是否成功
+        * @author zl-fire 2021/09/10
+        * @example
+        *  let res1 = copycutFiledir({ fileUrl: "./gggg", flag: true});
+        *  console.log("res1",res1)
+      */
+    function copycutFiledir(paramsObj) {
+        try {
+
+            let {
+                inputFileUrl,
+                outFileUrl,
+                copyOrCut = "copy",//默认复制
+                showExeResult = true,
+                delExactType = []
+            } = paramsObj;
+
+            // // 获取文件名
+            // let fileName = path.basename(inputFileUrl);
+            // console.log("==fileName====", fileName)
+            // // 拼接文件名
+            // outFileUrl = outFileUrl + "/" + fileName;
+            // 标识时文件还是文件夹
+            let fileOrDir;//dir|file
+
+            // 控制是否打印删除日志
+            let log;
+            if (showExeResult != undefined && showExeResult == false) {
+                log = function () { };
+            } else if (log == undefined) {
+                log = console.log;
+            }
+
+            // 先判断文件/文件夹是否存在
+            if (!fs$6.existsSync(inputFileUrl)) {
+                log(inputFileUrl + " 不存在!");
+                return false;
+            };
+
+            // 先判断是文件还是文件夹
+            if (fs$6.statSync(inputFileUrl).isDirectory()) {
+                fileOrDir = "dir";
+            }
+            else {
+                fileOrDir = "file";
+            }
+            // 如果是文件，开始操作
+            if (fileOrDir == "file") {
+                // 如果为复制操作（先读取，在写入）
+                if (copyOrCut == "copy") {
+                    let content = readFileContent({ filePath: inputFileUrl, returnType: "buffer" });
+                    // console.log("====outFileUrl, content, showExeResult========", outFileUrl, content, showExeResult);
+                    writeFile({ path: outFileUrl, content, showExeResult });
+                    console.log(inputFileUrl + "成功 " + copyOrCut + " 到" + outFileUrl);
+                }
+            }
+
+            // 如果是文件夹，开始操作
+        }
+        catch (err) {
+            console.log("=========err=========", err);
         }
     }
 
@@ -780,6 +862,7 @@
     var main = {
         writeFile,
         deleteFile,
+        copycutFiledir,
         readFileList,
         readFileContent,
         addFileContent,
