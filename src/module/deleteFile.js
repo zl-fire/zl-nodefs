@@ -1,7 +1,7 @@
 
 const fs = require('fs'); // 引入fs模块
 const Path = require('path');
-
+let showExeResultVal, log;
 
 /**
     * @function 同步方式，递归删除指定目录下的所有文件/文件夹
@@ -20,7 +20,8 @@ const Path = require('path');
 function deleteFile(paramsObj) {
     let { fileUrl, flag, showExeResult, delExactType } = paramsObj;
     if (showExeResult == undefined) showExeResult = true; //默认显示提示
-    return delFile({ fileUrl, flag, showExeResult, delExactType });
+    showExeResultVal=showExeResult;
+    return delFile({ fileUrl, flag, delExactType });
 }
 
 
@@ -28,22 +29,20 @@ function deleteFile(paramsObj) {
     * @function 同步方式，删除指定目录下的所有文件/文件夹
     * @param {String} fileUrl 要删除的文件/文件夹路径
     * @param {Boolean} flag 是否删除最外层目录，不传或为false表示不删除，true表示删除.
-    * @param {Boolean} showExeResult  是否显示文件写入操作 执行完后的提示，默认为true：显示。
     * @return {Boolean} true/false 表示操作是否成功
     * @author zl-fire 2021/08/28
     * @example
     *  let res=delFile("./hello", true, true);
     *  console.log("res",res)
   */
-function delFile({ fileUrl, flag, showExeResult, delExactType }) {
-    var log, i;
-
+function delFile({ fileUrl, flag, delExactType }) {
+    var i;
     // 控制是否打印删除日志
-    if (showExeResult != undefined && showExeResult == false) {
-        log = function () { }
+    if (!showExeResultVal) {
+        log = function () { }  //不打印
     }
-    else if (log == undefined) {
-        log = console.log;
+    else {
+        log = console.log; //打印
     }
 
     // 控制递归结束后，在最外层时进行返回
@@ -95,4 +94,4 @@ function delFile({ fileUrl, flag, showExeResult, delExactType }) {
     }
 }
 
-export default   deleteFile;
+export default deleteFile;
