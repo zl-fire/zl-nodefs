@@ -362,6 +362,13 @@ declare function asyncDelEmptyDir(list: any[], other?: {
     num: number;
     callBack: Function;
 }): void;
+/**
+    * @function createDirsSync
+    * @description 递归创建路径层次中不存在的目录
+    * @param {String} dir  目录路径参数
+    * @author zl-fire 2021/08/28
+  */
+declare function createDirsSync(dir: string): void;
 export declare namespace util {
     export { deepCallGetMapObj };
     export { signEmptyDir };
@@ -370,5 +377,6 @@ export declare namespace util {
     export { delEmptyDir };
     export { listnExePro };
     export { asyncDelEmptyDir };
+    export { createDirsSync };
 }
 export {};

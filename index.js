@@ -4,7 +4,7 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global['zl-nodefs'] = factory());
 }(this, (function () { 'use strict';
 
-    const fs$6 = require('fs'); // 引入fs模块
+    const fs$7 = require('fs'); // 引入fs模块
     // 处理解析绝对路径（windows）
     function handleAbsolutePath(thePath, content, showExeResult) {
         // if (/^[A-Za-z]:/.test(thePath)) { } // 绝对路径判断规则
@@ -19,14 +19,63 @@
         for (let i = 0; i < pathArr.length; i++) {
             // 路径不存在就创建
             url += pathArr[i] + "\\";
-            if (!fs$6.existsSync(url)) {
-                fs$6.mkdirSync(url);
+            if (!fs$7.existsSync(url)) {
+                fs$7.mkdirSync(url);
             }
         }
         // 创建文件
-        fs$6.writeFileSync(thePath, content);
+        fs$7.writeFileSync(thePath, content);
         if (showExeResult) {
             console.log(thePath + "创建成功");
+        }
+    }
+
+    const fs$6 = require('fs'); // 引入fs模块
+
+    /**
+        * @function createDirsSync
+        * @description 递归创建路径层次中不存在的目录
+        * @param {String} dir  目录路径参数
+        * @author zl-fire 2021/08/28
+      */
+    function createDirsSync(dir) {
+        if (dir == "." || dir == "..") {
+            return;
+        }
+        var dirs = dir.split('/');
+        if (dirs[0] == '.' || dirs[0] == "..") {
+            dirs[1] = dirs[0] + "/" + dirs[1];
+            dirs.shift();
+        }
+        if (dirs[dirs.length - 1] == "") {
+            dirs.pop();
+        }
+        if (dirs[0] == "") dirs[0] = "/"; //兼容mac等以/开头的绝对路径
+        var len = dirs.length;
+        var i = 0;
+        var url = dirs[i];
+        // 启动递归函数
+        mkDirs(url);
+        // 逐级检测有没有当前文件夹，没有就创建，有就继续检测下一级
+        function mkDirs(url) {
+            if (fs$6.existsSync(url)) {
+                i = i + 1;
+                if (len > i) {
+                    url = url + "/" + dirs[i];
+                    mkDirs(url);
+                }
+            } else {
+                mkDir(url);
+            }
+        }
+        // 创建文件
+        function mkDir(url) {
+            fs$6.mkdirSync(url);
+            i = i + 1;
+            if (len > i) {
+                url = url + "/" + dirs[i];
+                mkDir(url);
+            }
         }
     }
 
@@ -84,52 +133,6 @@
             msg = path + " 创建失败.";
             console.log(msg, err);
             return false;
-        }
-    }
-
-    /**
-        * @function 递归创建路径层次中不存在的目录
-        * @param {String} dir  目录路径参数
-        * @author zl-fire 2021/08/28
-      */
-    function createDirsSync(dir) {
-        if (dir == "." || dir == "..") {
-            return;
-        }
-        var dirs = dir.split('/');
-        if (dirs[0] == '.' || dirs[0] == "..") {
-            dirs[1] = dirs[0] + "/" + dirs[1];
-            dirs.shift();
-        }
-        if (dirs[dirs.length - 1] == "") {
-            dirs.pop();
-        }
-        if (dirs[0] == "") dirs[0] = "/"; //兼容mac等以/开头的绝对路径
-        var len = dirs.length;
-        var i = 0;
-        var url = dirs[i];
-        // 启动递归函数
-        mkDirs(url);
-        // 逐级检测有没有当前文件夹，没有就创建，有就继续检测下一级
-        function mkDirs(url) {
-            if (fs$5.existsSync(url)) {
-                i = i + 1;
-                if (len > i) {
-                    url = url + "/" + dirs[i];
-                    mkDirs(url);
-                }
-            } else {
-                mkDir(url);
-            }
-        }
-        // 创建文件
-        function mkDir(url) {
-            fs$5.mkdirSync(url);
-            i = i + 1;
-            if (len > i) {
-                url = url + "/" + dirs[i];
-                mkDir(url);
-            }
         }
     }
 
@@ -932,7 +935,8 @@
             filterEmptyDir,
             delEmptyDir,
             listnExePro,
-            asyncDelEmptyDir
+            asyncDelEmptyDir,
+            createDirsSync
         }
     };
 

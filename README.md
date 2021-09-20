@@ -231,6 +231,7 @@ let {
         filterEmptyDir,//删除对象数组中的将空目录字段信息（存在children字段，且children为空数组）
         listnExePro,//监听一些不知道何时结束的程序进度
         asyncDelEmptyDir //异步方式删除对象数组中空的目录（无法精确把控何时删除完成）
+        createDirsSync,//递归创建路径层次中不存在的目录
 
 } = zl_nodefs.util;
 

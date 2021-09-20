@@ -13,6 +13,7 @@ import filterEmptyDir from "./module/util/filterEmptyDir";
 import delEmptyDir from "./module/util/delEmptyDir";
 import listnExePro from "./module/util/listnExePro";
 import asyncDelEmptyDir from "./module/util/asyncDelEmptyDir";
+import createDirsSync from "./module/util/createDirsSync";
 
 export default {
     writeFile,
@@ -28,6 +29,7 @@ export default {
         filterEmptyDir,
         delEmptyDir,
         listnExePro,
-        asyncDelEmptyDir
+        asyncDelEmptyDir,
+        createDirsSync
     }
 }
