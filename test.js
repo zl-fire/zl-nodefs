@@ -12,10 +12,10 @@ let {
 } = zl_nodefs;
 
 // copycutFiledir({
-//     inputFileUrl: "./helloooo",
-//     outFileUrl: "./helloooo333",
-//     copyOrCut: "copy",
-//     // showExeResult:false,
+//     inputFileUrl: "./doctest2",
+//     outFileUrl: "./doctest",
+//     copyOrCut: "cut",
+//     showExeResult:false,
 //     rewrite:false
 // })
 
@@ -35,7 +35,7 @@ let {
 //  console.log("=====res====", res);
 
 //  writeFile({ path: dir0, content: "helloworld", showExeResult: false });
- deleteFile({ fileUrl: path.join(path.resolve("."), "doctest2"), flag: true,showExeResult:false});
+//  deleteFile({ fileUrl: path.join(path.resolve("."), "doctest2"), flag: true,showExeResult:false});
 
 // var fileList = readFileList({
 //     dirPath: path.resolve("."),  //读取src下的所有文件
