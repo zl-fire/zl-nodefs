@@ -119,8 +119,11 @@ function handleDir(params) {
     var len = files.length;
     if (len > 0) {
         files.forEach(function (file) {
-            var inpUrl = inputFileUrl + '/' + file;
-            var outUrl = outFileUrl + '/' + file;
+            // var inpUrl = inputFileUrl + '/' + file;
+            // var outUrl = outFileUrl + '/' + file;
+            // 通过path.join+全路径方法实现兼容
+            var inpUrl = path.join(inputFileUrl,file);
+            var outUrl = path.join(outFileUrl,file);
             // 操作目录
             if (fs.statSync(inpUrl).isDirectory()) {
                 var n = fs.readdirSync(inputFileUrl);
