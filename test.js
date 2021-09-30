@@ -20,7 +20,7 @@ let {
 // })
 
 
-
+util.createDirsSync("./aaa/bbb/ccc/ddd")
 
 // let res = writeFile({ path: path.resolve(".")+"/test2/test3/test8.txt", content: "helloworld", showExeResult: true });
 // // 写入文件（windows）
