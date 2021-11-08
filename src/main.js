@@ -14,6 +14,7 @@ import delEmptyDir from "./module/util/delEmptyDir";
 import listnExePro from "./module/util/listnExePro";
 import asyncDelEmptyDir from "./module/util/asyncDelEmptyDir";
 import createDirsSync from "./module/util/createDirsSync";
+import sortByName from "./module/util/sortByName";
 
 export default {
     writeFile,
@@ -30,6 +31,7 @@ export default {
         delEmptyDir,
         listnExePro,
         asyncDelEmptyDir,
-        createDirsSync
+        createDirsSync,
+        sortByName
     }
 }

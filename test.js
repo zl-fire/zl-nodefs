@@ -20,7 +20,7 @@ let {
 // })
 
 
-util.createDirsSync("./aaa/bbb/ccc/ddd")
+// util.createDirsSync("./aaa/bbb/ccc/ddd")
 
 // let res = writeFile({ path: path.resolve(".")+"/test2/test3/test8.txt", content: "helloworld", showExeResult: true });
 // // 写入文件（windows）
@@ -37,13 +37,15 @@ util.createDirsSync("./aaa/bbb/ccc/ddd")
 //  writeFile({ path: dir0, content: "helloworld", showExeResult: false });
 //  deleteFile({ fileUrl: path.join(path.resolve("."), "doctest2"), flag: true,showExeResult:false});
 
-// var fileList = readFileList({
-//     dirPath: path.resolve("."),  //读取src下的所有文件
-//     ignoreList: ["node_modules", ".git"], //遇到node_modules目录时进行忽略
-//     needTypes: [".docx"], //只读取".doc", ".docx" 类型文件
-//     // isfilterEmptyDir:true
-//     // ignoreTypes:[".js",".doc"], //忽略".js",".doc"文件类型(如果needTypes存在，则以needTypes为准，会忽略ignoreTypes参数)
-// });
+var fileList = readFileList({
+    dirPath: "./testdocx",  
+    ignoreList: ["node_modules", ".git"], //遇到node_modules目录时进行忽略
+    needTypes: [".docx"], //只读取".doc", ".docx" 类型文件
+    issortByNum:true,
+    // isfilterEmptyDir:true
+    // ignoreTypes:[".js",".doc"], //忽略".js",".doc"文件类型(如果needTypes存在，则以needTypes为准，会忽略ignoreTypes参数)
+});
+// console.log(JSON.stringify(fileList,null,4))
 // util.asyncDelEmptyDir(fileList,{ msV: 1000, num: 2}); //默认连续2秒没有变化就认为执行完成
 
 

@@ -68,6 +68,7 @@ export function copycutFiledir(paramsObj: {
     * @param {Array<string>} paramsObj.needTypes  指定要读取的具体文件类型,除此之外全部忽略，如：[".doc", ".docx"]
     * @param {Array<string>}  paramsObj.ignoreTypes  指定要忽略的具体文件类型,除此之外全部读取(如果needTypes存在，则以needTypes为准，会忽略ignoreTypes参数)
     * @param {Boolean}  paramsObj.isfilterEmptyDir  是否过滤掉空目录字段信息（存在children字段，且children为空数组），默认不过滤， 传入true进行过滤
+    * @param {Boolean}  paramsObj.issortByNum  是否对名字通过开头的数字进行排序，默认是整体安装 ASCII 码进行排序
     * @return {Array<object>} 返回tree结构数据（如果想保留文件对象上的空的children数组字段，那么就设置：readFileList.nodelEmptyChildren=true）
     * @author zl-fire 2021/08/29
     * @example
@@ -88,6 +89,7 @@ export function readFileList(paramsObj: {
     needTypes: Array<string>;
     ignoreTypes: Array<string>;
     isfilterEmptyDir: boolean;
+    issortByNum: boolean;
 }): Array<object>;
 /**
     * @function 以同步方式读取指定文件的内容
@@ -329,8 +331,8 @@ declare function filterEmptyDir(list: object[], isfilterEmptyDir: any): void;
 */
 declare function delEmptyDir(list: object[], id2objMap: any): void;
 /**
-    * @function 监听一些不知道何时结束的程序执行进程
-    * @description 监听一些不知道何时结束的程序执行进程,实现原理为监听一个全局变量标识，这个标识在执行过程中会不断的发生变化。所以：如果连续ns后，这个标识都没改变，那就认为执行结束
+    * @function listnExePro
+    * @description 监听一些不知道何时结束的程序执行进程,实现原理为监听一个全局变量标识，这个标识在执行过程中会不断的发生变化。所以：如果连续n秒后，这个标识都没改变，那就认为执行结束
     * @param {Object} paramsObj 完整的参数对象信息(提示：全局标识字段名字必须为:changFlag)
     * @param {number} paramsObj.msV 设置每过多少毫秒扫描一次标识变量 是否发生变化，单位：毫秒。（默认1000毫秒）
     * @param {number} paramsObj.num 设置扫描多少次标识都不变，就认为是已经完成，默认3次
@@ -339,8 +341,8 @@ declare function delEmptyDir(list: object[], id2objMap: any): void;
     * @author zl-fire 2021/09/02
     * @example
     * let changFlagObj={val:0}; //用于异步控制的标识
-    * filterEmptyDir(list, id2objMap);//删除空目录,删除时changFlagObj.val会变化
-    * listnExePro({msV,num,callBack},changFlagObj); //监听何时删除完成
+    * delData(list, id2objMap,changFlagObj);//到了某个时刻后就删除数据,删除时changFlagObj.val会变化
+    * listnExePro({msV,num,callBack},changFlagObj); //监听何时删除完成（changFlagObj.val连续多久没发生变化，就表示删除完成）
   */
 declare function listnExePro(paramsObj: {
     msV: number;
@@ -378,6 +380,17 @@ declare function asyncDelEmptyDir(list: any[], other?: {
     * @author zl-fire 2021/08/28
   */
 declare function createDirsSync(dir: string): void;
+/**
+    * @function sortByName
+    * @description 通过对象的名字前开头的数字对同级对象进行排序
+    * @param {Object} list 要排序的对象数组（提示：需要有name和children字段，代表名字和后代）
+    * @author zl-fire 2021/11/08
+    * @example
+    * sortByName(list)
+    * console.log(list);
+    *
+  */
+declare function sortByName(list: any): void;
 export declare namespace util {
     export { deepCallGetMapObj };
     export { signEmptyDir };
@@ -387,5 +400,6 @@ export declare namespace util {
     export { listnExePro };
     export { asyncDelEmptyDir };
     export { createDirsSync };
+    export { sortByName };
 }
 export {};

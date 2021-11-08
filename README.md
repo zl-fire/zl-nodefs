@@ -240,6 +240,7 @@ let {
         listnExePro,//监听一些不知道何时结束的程序进度
         asyncDelEmptyDir //异步方式删除对象数组中空的目录（无法精确把控何时删除完成）
         createDirsSync,//递归创建路径层次中不存在的目录
+        sortByName,//通过对象的名字前开头的数字对同级对象进行排序
 
 } = zl_nodefs.util;
 
@@ -427,6 +428,18 @@ let {
     * });
     * util.asyncDelEmptyDir(fileList);
     * console.log(JSON.stringify(fileList, null, 4));
+  */
+
+--------- sortByName 通过对象的名字前开头的数字对同级对象进行排序 --------------------------------------------
+ /**
+    * @function sortByName
+    * @description 通过对象的名字前开头的数字对同级对象进行排序
+    * @param {Object} list 要排序的对象数组（提示：需要有name和children字段，代表名字和后代）
+    * @author zl-fire 2021/11/08
+    * @example
+    * sortByName(list)
+    * console.log(list);
+    *
   */
 
 ```
