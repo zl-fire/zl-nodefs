@@ -11,7 +11,7 @@ const Path = require('path');
     * @param {Array<string>} paramsObj.needTypes  指定要读取的具体文件类型,除此之外全部忽略，如：[".doc", ".docx"]
     * @param {Array<string>}  paramsObj.ignoreTypes  指定要忽略的具体文件类型,除此之外全部读取(如果needTypes存在，则以needTypes为准，会忽略ignoreTypes参数)
     * @param {Boolean}  paramsObj.isfilterEmptyDir  是否过滤掉空目录字段信息（存在children字段，且children为空数组），默认不过滤， 传入true进行过滤
-    * @param {Boolean}  paramsObj.issortByNum  是否对名字通过开头的数字进行排序，默认是整体安装 ASCII 码进行排序
+    * @param {Boolean}  paramsObj.issortByNum  是否对名字通过开头的数字进行排序，默认是整体按照 ASCII 码进行排序
     * @return {Array<object>} 返回tree结构数据（如果想保留文件对象上的空的children数组字段，那么就设置：readFileList.nodelEmptyChildren=true）
     * @author zl-fire 2021/08/29
     * @example
@@ -27,7 +27,7 @@ const Path = require('path');
     * 
   */
 function readFileList(paramsObj) {
-    let { dirPath, ignoreList, needTypes, ignoreTypes, isfilterEmptyDir = false,issortByNum=false } = paramsObj;//needTypes优先级最高
+    let { dirPath, ignoreList, needTypes, ignoreTypes, isfilterEmptyDir = false,issortByNum=true } = paramsObj;//needTypes优先级最高
     // 文件列表
     const filesList = [];
     const idv = 0; //初始id值
